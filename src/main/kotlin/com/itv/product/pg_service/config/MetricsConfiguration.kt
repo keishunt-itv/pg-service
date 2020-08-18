@@ -1,4 +1,4 @@
-package com.itv.product.app_name.config
+package com.itv.product.pg_service.config
 
 import io.micrometer.core.instrument.Clock
 import io.micrometer.influx.InfluxConfig

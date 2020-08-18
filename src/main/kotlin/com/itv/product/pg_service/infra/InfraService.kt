@@ -1,6 +1,6 @@
-package com.itv.product.app_name.infra
+package com.itv.product.pg_service.infra
 
-import com.itv.product.app_name.infra.model.HealthCheck
+import com.itv.product.pg_service.infra.model.HealthCheck
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

@@ -1,4 +1,4 @@
-package com.itv.product.app_name.infra.model
+package com.itv.product.pg_service.infra.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 

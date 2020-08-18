@@ -44,7 +44,7 @@ apply plugin: 'de.undercouch.download'
 apply plugin: 'org.hidetake.swagger.generator'
 apply plugin: 'com.gorylenko.gradle-git-properties'
 
-mainClassName = 'com.itv.product.app_name.ApplicationKt'
+mainClassName = 'com.itv.product.pg_service.ApplicationKt'
 
 jacoco {
     toolVersion = "0.8.4"
