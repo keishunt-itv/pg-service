@@ -1,4 +1,4 @@
-package com.itv.product.app_name.config
+package com.itv.product.pg_service.config
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.natpryce.konfig.*

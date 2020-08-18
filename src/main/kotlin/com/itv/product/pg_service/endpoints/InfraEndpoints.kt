@@ -1,8 +1,8 @@
-package com.itv.product.app_name.endpoints
+package com.itv.product.pg_service.endpoints
 
-import com.itv.product.app_name.config.Properties
-import com.itv.product.app_name.infra.doHealthCheck
-import com.itv.product.app_name.infra.model.VersionResponse
+import com.itv.product.pg_service.config.Properties
+import com.itv.product.pg_service.infra.doHealthCheck
+import com.itv.product.pg_service.infra.model.VersionResponse
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond

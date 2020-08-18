@@ -1,4 +1,4 @@
-package com.itv.product.app_name.endpoints
+package com.itv.product.pg_service.endpoints
 
 import io.ktor.http.content.resources
 import io.ktor.routing.Routing
