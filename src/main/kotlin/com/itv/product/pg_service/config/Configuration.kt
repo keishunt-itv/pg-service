@@ -32,6 +32,11 @@ object Properties {
         }
     }
 
+//    @io.ktor.util.KtorExperimentalAPI
+//    val jacksonHttpClient = HttpClient {
+//        install(JsonFeature) { serializer = JacksonSerializer {} }
+//    }
+
     val influxUrl = config[Key("influx.url", stringType)]
     val influxDb = config[Key("influx.db", stringType)]
     val influxStep = config[Key("influx.step", longType)]
