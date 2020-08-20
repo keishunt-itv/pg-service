@@ -6,8 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.itv.product.pg_service.config.Properties
-import com.itv.product.pg_service.config.initInfluxConfig
-import com.itv.product.pg_service.config.metricRegistry
+import com.itv.product.pg_service.endpoints.initialiseCarbonEndpoints
 import com.itv.product.pg_service.endpoints.initialiseInfraEndpoints
 import com.itv.product.pg_service.endpoints.initialiseSwaggerEndpoint
 import io.ktor.application.Application
@@ -15,7 +14,6 @@ import io.ktor.application.install
 import io.ktor.features.*
 import io.ktor.http.HttpMethod
 import io.ktor.jackson.jackson
-import io.ktor.metrics.micrometer.MicrometerMetrics
 import io.ktor.request.header
 import io.ktor.routing.Routing
 import io.ktor.routing.routing
@@ -38,10 +36,10 @@ fun Application.module() {
         anyHost()
     }
 
-    install(MicrometerMetrics) {
-        initInfluxConfig()
-        registry = metricRegistry
-    }
+//    install(MicrometerMetrics) {
+//        initInfluxConfig()
+//        registry = metricRegistry
+//    }
 
     install(ContentNegotiation) {
 
@@ -75,6 +73,7 @@ fun Application.module() {
         routing {
             initialiseInfraEndpoints()
             initialiseSwaggerEndpoint()
+            initialiseCarbonEndpoints()
         }
     }
 }
