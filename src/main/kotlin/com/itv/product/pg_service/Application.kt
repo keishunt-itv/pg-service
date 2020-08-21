@@ -9,6 +9,7 @@ import com.itv.product.pg_service.config.Properties
 import com.itv.product.pg_service.endpoints.initialiseCarbonEndpoints
 import com.itv.product.pg_service.endpoints.initialiseInfraEndpoints
 import com.itv.product.pg_service.endpoints.initialiseSwaggerEndpoint
+import com.itv.product.pg_service.service.pollCarbonIntensityApi
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.*
@@ -21,6 +22,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.jetty.Jetty
 import io.ktor.util.KtorExperimentalAPI
 import io.ktor.webjars.Webjars
+import kotlinx.coroutines.launch
 import org.springframework.hateoas.mediatype.hal.Jackson2HalModule
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -75,6 +77,10 @@ fun Application.module() {
             initialiseSwaggerEndpoint()
             initialiseCarbonEndpoints()
         }
+    }
+
+    launch {
+        pollCarbonIntensityApi()
     }
 }
 
