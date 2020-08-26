@@ -13,7 +13,6 @@ private val logger = KotlinLogging.logger {}
 suspend fun getCarbonIntensityData(): String =
     client.get("https://api.carbonintensity.org.uk/regional")
 
-
 @io.ktor.util.KtorExperimentalAPI
 fun getRegionalList(): List<CarbonRegions> = retrieveCarbonCache().data.let { it }
 
