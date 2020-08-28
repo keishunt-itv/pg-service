@@ -1,9 +1,8 @@
 package com.itv.product.pg_service.endpoints
 
+import com.itv.product.pg_service.service.convertRegionalList
 import com.itv.product.pg_service.service.getRegionData
-import com.itv.product.pg_service.service.getRegionalList
 import com.itv.product.pg_service.service.regionalEnumCheck
-import com.itv.product.pg_service.service.retrieveCarbonCache
 import io.ktor.application.call
 import io.ktor.features.BadRequestException
 import io.ktor.features.NotFoundException
@@ -25,7 +24,7 @@ fun Routing.initialiseCarbonEndpoints() {
     route("/all") {
         get {
             try {
-                val result = getRegionalList()
+                val result = convertRegionalList()
                 call.respond(HttpStatusCode.OK, result)
                     .also { logger.info { "Retrieving all regions data .... $result" } }
             } catch (e: BadRequestException) {
