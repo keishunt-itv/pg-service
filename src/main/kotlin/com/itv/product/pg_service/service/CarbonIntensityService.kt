@@ -1,9 +1,11 @@
 package com.itv.product.pg_service.service
 
 import com.itv.product.pg_service.config.Properties.client
-import com.itv.product.pg_service.model.entity.CarbonRegionData
 import com.itv.product.pg_service.model.entity.CarbonRegions
 import com.itv.product.pg_service.model.enums.CarbonIntensityRegion
+import com.itv.product.pg_service.model.resource.CarbonRegionListResource
+import com.itv.product.pg_service.model.resource.CarbonRegionResource
+import com.itv.product.pg_service.model.resource.toCarbonRegionListResource
 import io.ktor.client.request.get
 import mu.KotlinLogging
 
@@ -17,13 +19,15 @@ suspend fun getCarbonIntensityData(): String =
 fun getRegionalList(): List<CarbonRegions> = retrieveCarbonCache().data.let { it }
 
 @io.ktor.util.KtorExperimentalAPI
-fun getRegionData(region: CarbonIntensityRegion): CarbonRegionData? {
-    getRegionalList().apply {
-        val selectedRegion = map { it ->
-            it.regions.filter { it.region == region }
-        }
-        return selectedRegion.first().firstOrNull()
-            .also { logger.info { "Retrieving data for $region ....... $selectedRegion" } }
+fun convertRegionalList(): CarbonRegionListResource = toCarbonRegionListResource(getRegionalList().first())
+
+@io.ktor.util.KtorExperimentalAPI
+fun getRegionData(region: CarbonIntensityRegion): CarbonRegionResource? {
+    convertRegionalList().apply {
+        val selectedRegion = regions.filter { it.region == region }
+        val convertedRegion = selectedRegion.first()
+        return convertedRegion
+            .also { logger.info { "Retrieving data for $region ....... $convertedRegion" } }
     }
 }
 
