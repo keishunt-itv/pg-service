@@ -2,12 +2,12 @@ package com.itv.product.pg_service.service
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.itv.product.pg_service.model.CICache
 import com.itv.product.pg_service.model.entity.CarbonIntensityResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
-import java.io.File
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -19,15 +19,16 @@ suspend fun updateCache() =
     coroutineScope {
         try {
             val updatedData = async { getCarbonIntensityData() }
-            val existingCache = File("src/main/resources/carbonCache.txt")
-            existingCache.writeText(updatedData.await())
-        } catch (e : Exception) {
+            val updatedCache = CICache.updateCache(updatedData.await())
+            CICache.updateCache(updatedData.await())
+            logger.info { "cache updated = $updatedCache" }
+        } catch (e: Exception) {
             logger.error { "Failed to write to cache .... $e" }
         }
     }
 
 fun retrieveCarbonCache(): CarbonIntensityResponse {
-    val carbonCache = File("src/main/resources/carbonCache.txt")
+    val carbonCache = CICache.cacheString
     val mapper = jacksonObjectMapper()
     mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
     return mapper.readValue<CarbonIntensityResponse>(carbonCache, CarbonIntensityResponse::class.java)
