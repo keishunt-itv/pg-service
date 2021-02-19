@@ -18,7 +18,7 @@ private val logger = KotlinLogging.logger {}
 suspend fun updateCache() =
     coroutineScope {
         try {
-            val updatedData = async { getCarbonIntensityData() }
+            val updatedData = async { getCarbonIntensityData().toString() }
             val updatedCache = CICache.updateCache(updatedData.await())
             CICache.updateCache(updatedData.await())
             logger.info { "cache updated = $updatedCache" }

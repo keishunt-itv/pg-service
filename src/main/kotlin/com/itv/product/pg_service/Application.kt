@@ -9,6 +9,9 @@ import com.itv.product.pg_service.config.Properties
 import com.itv.product.pg_service.endpoints.initialiseCarbonEndpoints
 import com.itv.product.pg_service.endpoints.initialiseInfraEndpoints
 import com.itv.product.pg_service.endpoints.initialiseSwaggerEndpoint
+import com.itv.product.pg_service.service.addToDb
+import com.itv.product.pg_service.service.getCarbonIntensityData
+import com.itv.product.pg_service.service.migrateDb
 import com.itv.product.pg_service.service.pollCarbonIntensityApi
 import io.ktor.application.Application
 import io.ktor.application.install
@@ -80,8 +83,10 @@ fun Application.module() {
     }
 
     launch {
-        pollCarbonIntensityApi()
+//        pollCarbonIntensityApi()
+        addToDb()
     }
+    migrateDb()
 }
 
 @KtorExperimentalAPI

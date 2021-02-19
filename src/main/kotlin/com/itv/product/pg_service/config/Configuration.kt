@@ -51,4 +51,13 @@ object Properties {
 
     val env = config[Key("_environment", stringType)]
     val host = config[Key("hostname", stringType)]
+
+    val postgres_host = config[Key("postgres.host", stringType)]
+    val postgres_port = config[Key("postgres.port", intType)]
+    val postgres_database = config[Key("postgres.database", stringType)]
+    val postgres_username = config[Key("postgres.username", stringType)]
+    val postgres_password = config[Key("postgres.password", stringType)]
+    val postgres_schema = config[Key("postgres.schema", stringType)]
+    val maximum_pool_size = config[Key("postgres.maximumPoolSize", intType)]
+    val minimum_idle_connections = config[Key("postgres.minimumIdleConnections", intType)]
 }
