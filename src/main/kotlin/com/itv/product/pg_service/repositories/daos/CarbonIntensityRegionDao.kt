@@ -4,32 +4,13 @@ import com.itv.product.pg_service.model.entity.CarbonRegionData
 import org.jdbi.v3.core.mapper.reflect.ColumnName
 
 data class CarbonIntensityRegionDao(
+    @ColumnName("id")
+    val id: Int,
     @ColumnName("region")
-    val region : String,
+    val region: String,
     @ColumnName("forecast")
-    val forecast : Int,
+    val forecast: Int,
     @ColumnName("index_rating")
-    val indexRating : String,
-    @ColumnName("fuel")
-    val fuel : String,
-    @ColumnName("percentage")
-    val percentage : Int
+    val indexRating: String,
 )
 
-data class CarbonIntensityRegionInsert(
-    val region : String,
-    val forecast : Int,
-    val indexRating : String,
-    val fuel : String,
-    val percentage : Int
-)
-
-
-fun CarbonRegionData.toCarbonIntensityRegionInsert() =
-    CarbonIntensityRegionInsert(
-        region = this.region.name,
-        forecast = this.intensity.forecast,
-        indexRating = this.intensity.index.name,
-        fuel = this.generationMix[0].fuel.name,
-        percentage = this.generationMix[0].percentage
-    )

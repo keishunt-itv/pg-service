@@ -20,6 +20,8 @@ private val logger = KotlinLogging.logger {}
 @KtorExperimentalAPI
 fun Routing.initialiseCarbonEndpoints() {
 
+    //TODO install call handling as part of KTOR
+    //TODO install swagger index file
     //TODO look at exception handling better
     route("/all") {
         get {

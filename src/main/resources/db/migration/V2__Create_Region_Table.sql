@@ -5,7 +5,5 @@ create table project_green.regional_data
             primary key,
     region text,
     forecast     integer,
-    index_rating text,
-    fuel         text,
-    percentage   integer
+    index_rating text
 );

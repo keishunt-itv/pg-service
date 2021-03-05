@@ -9,9 +9,10 @@ import com.itv.product.pg_service.model.resource.CarbonRegionListResource
 import com.itv.product.pg_service.model.resource.CarbonRegionResource
 import com.itv.product.pg_service.model.resource.toCarbonRegionListResource
 import com.itv.product.pg_service.repositories.RegionRepository
-import com.itv.product.pg_service.repositories.daos.toCarbonIntensityRegionInsert
-import io.ktor.client.request.get
-import io.ktor.client.request.url
+import com.itv.product.pg_service.repositories.inserts.RegionFuelInsert
+import com.itv.product.pg_service.repositories.inserts.toCarbonIntensityRegionInsert
+import com.itv.product.pg_service.repositories.inserts.toRegionFuelInsert
+import io.ktor.client.request.*
 import io.ktor.util.*
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
@@ -32,22 +33,46 @@ suspend fun getCarbonIntensityData(): List<CarbonRegionData> {
     }
 }
 
+fun truncateDb() {
+    logger.info { "Truncating whole database .... " }
+    RegionRepository.truncateWholeDatabase()
+    logger.info { "Database truncating complete.... " }
+}
+
+
 @KtorExperimentalAPI
 fun addToDb() {
     try {
         runBlocking {
-            getCarbonIntensityData().map { it.toCarbonIntensityRegionInsert() }.apply {
+            val carbonData = getCarbonIntensityData()
+            var fuelInsertList = listOf<RegionFuelInsert>()
+            carbonData.map {
+                fuelInsertList = getFuelInsert(it)
+                it.toCarbonIntensityRegionInsert()
+            }.apply {
                 this.forEach { carbonIntensityRegionInsert ->
-                    RegionRepository.addRegionToDatabase(carbonIntensityRegionInsert)
-                    logger.info { "Adding ${carbonIntensityRegionInsert.region} to database" }
+                    RegionRepository.addToDatabase(
+                        carbonIntensityRegionInsert = carbonIntensityRegionInsert,
+                        fuelInsert = fuelInsertList
+                    )
+                    logger.info { "Added ${carbonIntensityRegionInsert.region} to database" }
+                    logger.info { "Added $fuelInsertList to database for ${carbonIntensityRegionInsert.region}" }
                 }
             }
         }
-    }catch (e: Exception) {
+    } catch (e: Exception) {
         logger.error { "Exception in adding to db $e" }
     }
 }
 
+fun getFuelInsert(carbonData: CarbonRegionData): List<RegionFuelInsert> {
+    return carbonData.generationMix.map { generationMix ->
+            generationMix.toRegionFuelInsert()
+        }
+    }
+
+
+//TODO retrieve data from DB and send out in api
 @io.ktor.util.KtorExperimentalAPI
 fun getRegionalList(): List<CarbonRegions> = retrieveCarbonCache().data.let { it }
 
